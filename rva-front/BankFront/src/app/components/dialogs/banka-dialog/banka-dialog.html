@@ -1,0 +1,110 @@
+<div class="modern-dialog">
+  <div class="dialog-header">
+    <div class="header-content">
+      <mat-icon class="header-icon" [color]="flag === 3 ? 'warn' : 'primary'">
+        {{ flag === 1 ? 'add_business' : flag === 2 ? 'edit' : 'delete_forever' }}
+      </mat-icon>
+      <div class="header-text">
+        <h2 class="dialog-title">
+          <span *ngIf="flag == 1">Add New Bank</span>
+          <span *ngIf="flag == 2">Update Bank</span>
+          <span *ngIf="flag == 3">Delete Bank</span>
+        </h2>
+        <p class="dialog-subtitle" *ngIf="flag !== 1">{{ data.naziv }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-content">
+    <form #formControl="ngForm" class="dialog-form">
+      <div class="form-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Bank Name</mat-label>
+          <input
+            matInput
+            placeholder="Enter bank name"
+            [(ngModel)]="data.naziv"
+            name="naziv"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>business</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contact Information</mat-label>
+          <input
+            matInput
+            placeholder="Enter contact details"
+            [(ngModel)]="data.kontakt"
+            name="kontakt"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>contact_phone</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>PIB (Tax Number)</mat-label>
+          <input
+            matInput
+            placeholder="Enter PIB number"
+            [(ngModel)]="data.pib"
+            name="pib"
+            type="number"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>receipt_long</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="warning-section" *ngIf="flag == 3">
+        <mat-icon color="warn">warning</mat-icon>
+        <p>This action cannot be undone. Are you sure you want to delete this bank?</p>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button class="cancel-btn" (click)="cancel()">
+      <mat-icon>close</mat-icon>
+      <span>Cancel</span>
+    </button>
+
+    <button
+      mat-raised-button
+      *ngIf="flag == 1"
+      color="primary"
+      class="action-btn"
+      [disabled]="!formControl.valid"
+      (click)="add()"
+    >
+      <mat-icon>save</mat-icon>
+      <span>Create Bank</span>
+    </button>
+
+    <button
+      mat-raised-button
+      *ngIf="flag == 2"
+      color="primary"
+      class="action-btn"
+      [disabled]="!formControl.valid"
+      (click)="update()"
+    >
+      <mat-icon>update</mat-icon>
+      <span>Update Bank</span>
+    </button>
+
+    <button
+      mat-raised-button
+      *ngIf="flag == 3"
+      color="warn"
+      class="action-btn danger"
+      (click)="delete()"
+    >
+      <mat-icon>delete_forever</mat-icon>
+      <span>Delete Bank</span>
+    </button>
+  </div>
+</div>

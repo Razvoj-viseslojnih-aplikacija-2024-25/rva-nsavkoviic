@@ -1,0 +1,117 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+mat-toolbar {
+  justify-content: center;
+  background-color: #1976d2;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+// Info button styles
+.info-cell {
+  padding: 8px !important;
+}
+
+.description-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commission-cell {
+  font-weight: 600;
+  color: #2196f3;
+  text-align: center;
+}
+
+.info-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &.filijala-btn {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+
+    &:hover {
+      background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+    }
+  }
+
+  &.korisnik-btn {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+
+    &:hover {
+      background: linear-gradient(135deg, #e1bee7 0%, #ce93d8 100%);
+    }
+  }
+}
+
+.info-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.info-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.info-detail {
+  font-size: 12px;
+  color: #666;
+  font-weight: normal;
+}
+
+.info-icon {
+  transition: transform 0.3s ease;
+  color: #666;
+}
+
+.usluga-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .info-btn {
+    padding: 8px 12px;
+  }
+
+  .info-name {
+    font-size: 13px;
+  }
+
+  .description-cell {
+    max-width: 150px;
+  }
+}

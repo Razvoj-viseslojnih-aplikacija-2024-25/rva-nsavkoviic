@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <span class="title-center">Filijala</span>
+</mat-toolbar>
+
+<div class="container mat-elevation-z8">
+  <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
+    <ng-container matColumnDef="adresa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+      <td mat-cell *matCellDef="let row">{{ row.adresa }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="brojPultova">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Counters</th>
+      <td mat-cell *matCellDef="let row">{{ row.brojPultova }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="posedujeSef">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Has Safe</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-icon [style.color]="row.posedujeSef ? '#4caf50' : '#f44336'">{{
+          row.posedujeSef ? 'check_circle' : 'cancel'
+        }}</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bankaInfo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bank</th>
+      <td mat-cell *matCellDef="let row" class="bank-info-cell">
+        <button mat-button class="bank-info-btn" (click)="toggleBankDetails(row)">
+          <div class="bank-summary">
+            <div class="bank-name">{{ row.banka?.naziv || 'Unknown Bank' }}</div>
+            <div class="bank-pib" *ngIf="row.banka?.pib">PIB: {{ row.banka.pib }}</div>
+          </div>
+          <mat-icon class="info-icon">info</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button (click)="openDialog(1)">
+          <mat-icon color="accent">add</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="openDialog(2, row)">
+          <mat-icon color="primary">edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openDialog(3, row)">
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="filijala-row"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[2, 5, 10]" showFirstLastButtons></mat-paginator>
+</div>

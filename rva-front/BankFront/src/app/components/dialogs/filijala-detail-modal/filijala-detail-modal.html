@@ -1,0 +1,150 @@
+<div class="fullscreen-modal">
+  <div class="modal-header">
+    <div class="header-content">
+      <mat-icon class="header-icon">account_balance</mat-icon>
+      <div class="header-text">
+        <h1>{{ selectedFilijala ? 'Branch Details' : 'Select Branch' }}</h1>
+        <p>{{ selectedFilijala ? selectedFilijala.adresa : 'Choose a branch for this service' }}</p>
+      </div>
+    </div>
+    <button mat-icon-button class="close-btn" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="modal-content">
+    <div class="search-section" *ngIf="!selectedFilijala">
+      <mat-form-field class="search-field" appearance="outline">
+        <mat-label>Search Branches</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          (input)="applyFilter()"
+          placeholder="Search by address or bank"
+        />
+        <mat-icon matPrefix>search</mat-icon>
+        <button matSuffix mat-icon-button *ngIf="searchTerm" (click)="clearSearch()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="branches-grid" *ngIf="!selectedFilijala">
+      <div
+        class="branch-card"
+        *ngFor="let branch of filteredBranches"
+        (click)="selectBranch(branch)"
+        [class.selected]="branch.id === preselectedId"
+      >
+        <div class="card-header">
+          <mat-icon class="branch-icon">account_balance</mat-icon>
+          <div class="branch-address">{{ branch.adresa }}</div>
+        </div>
+        <div class="card-content">
+          <div class="info-item">
+            <mat-icon class="info-icon">business</mat-icon>
+            <span class="info-label">Bank:</span>
+            <span class="info-value">{{ branch.banka.naziv || 'Unknown' }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">desktop_windows</mat-icon>
+            <span class="info-label">Counters:</span>
+            <span class="info-value">{{ branch.brojPultova }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">security</mat-icon>
+            <span class="info-label">Safe:</span>
+            <span class="info-value">{{ branch.posedujeSef ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button mat-button color="primary">
+            <mat-icon>check_circle</mat-icon>
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="branch-details" *ngIf="selectedFilijala">
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="large-icon">account_balance</mat-icon>
+          <mat-card-title>{{ selectedFilijala.adresa }}</mat-card-title>
+          <mat-card-subtitle>Bank Branch</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="details-grid">
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>location_on</mat-icon>
+                Address
+              </div>
+              <div class="detail-value">{{ selectedFilijala.adresa }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>desktop_windows</mat-icon>
+                Number of Counters
+              </div>
+              <div class="detail-value">{{ selectedFilijala.brojPultova }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>security</mat-icon>
+                Has Safe
+              </div>
+              <div class="detail-value">{{ selectedFilijala.posedujeSef ? 'Yes' : 'No' }}</div>
+            </div>
+            <div class="detail-item" *ngIf="selectedFilijala.banka">
+              <div class="detail-label">
+                <mat-icon>business</mat-icon>
+                Bank
+              </div>
+              <div class="detail-value">{{ selectedFilijala.banka.naziv }}</div>
+            </div>
+            <div class="detail-item" *ngIf="selectedFilijala.banka">
+              <div class="detail-label">
+                <mat-icon>receipt</mat-icon>
+                Bank PIB
+              </div>
+              <div class="detail-value">{{ selectedFilijala.banka.pib }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>tag</mat-icon>
+                Branch ID
+              </div>
+              <div class="detail-value">#{{ selectedFilijala.id }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="confirm()">
+            <mat-icon>check</mat-icon>
+            Confirm Selection
+          </button>
+          <button mat-button (click)="backToList()">
+            <mat-icon>arrow_back</mat-icon>
+            Back to List
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div
+      class="empty-state"
+      *ngIf="!selectedFilijala && filteredBranches.length === 0 && branches.length > 0"
+    >
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <h3>No branches found</h3>
+      <p>Try adjusting your search criteria</p>
+      <button mat-button (click)="clearSearch()">Clear Search</button>
+    </div>
+
+    <div class="loading-state" *ngIf="branches.length === 0">
+      <mat-spinner></mat-spinner>
+      <p>Loading branches...</p>
+    </div>
+  </div>
+</div>

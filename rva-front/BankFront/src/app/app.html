@@ -1,0 +1,43 @@
+<div class="app-container">
+  <mat-toolbar color="primary" class="navbar">
+    <div class="nav-brand">
+      <mat-icon class="brand-icon">account_balance</mat-icon>
+      <span class="brand-text">BankFront</span>
+    </div>
+
+    <nav class="nav-links">
+      <a mat-button routerLink="/home" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </a>
+      <a mat-button routerLink="/banka" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>business</mat-icon>
+        <span>Banka</span>
+      </a>
+      <a mat-button routerLink="/filijala" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>location_city</mat-icon>
+        <span>Filijala</span>
+      </a>
+      <a mat-button routerLink="/korisnik-usluge" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>person</mat-icon>
+        <span>Korisnik</span>
+      </a>
+      <a mat-button routerLink="/usluga" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>miscellaneous_services</mat-icon>
+        <span>Usluga</span>
+      </a>
+      <a mat-button routerLink="/about" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>info</mat-icon>
+        <span>About</span>
+      </a>
+      <a mat-button routerLink="/author" routerLinkActive="active-link" class="nav-button">
+        <mat-icon>person_outline</mat-icon>
+        <span>Author</span>
+      </a>
+    </nav>
+  </mat-toolbar>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

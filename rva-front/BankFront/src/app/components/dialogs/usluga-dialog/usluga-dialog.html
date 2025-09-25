@@ -1,0 +1,167 @@
+<div class="modern-dialog">
+  <div class="dialog-header">
+    <div class="header-content">
+      <mat-icon class="header-icon">miscellaneous_services</mat-icon>
+      <div class="header-text">
+        <h2 class="dialog-title" *ngIf="flag == 1">Add New Service</h2>
+        <h2 class="dialog-title" *ngIf="flag == 2">Update Service</h2>
+        <h2 class="dialog-title" *ngIf="flag == 3">Delete Service</h2>
+        <p class="dialog-subtitle" *ngIf="flag == 1">Create a new banking service</p>
+        <p class="dialog-subtitle" *ngIf="flag == 2">
+          Modify {{ data.naziv || 'service' }} details
+        </p>
+        <p class="dialog-subtitle" *ngIf="flag == 3">
+          Remove {{ data.naziv || 'service' }} permanently
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-content">
+    <form #formControl="ngForm" class="dialog-form">
+      <div class="form-section">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Service Name</mat-label>
+          <input matInput [(ngModel)]="data.naziv" name="naziv" [disabled]="flag == 3" required />
+          <mat-icon matPrefix>label</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Service Description</mat-label>
+          <input
+            matInput
+            [(ngModel)]="data.opisUsluge"
+            name="opisUsluge"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>description</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Contract Date</mat-label>
+          <input
+            matInput
+            [(ngModel)]="data.datumUgovora"
+            name="datumUgovora"
+            type="date"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>event</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Commission</mat-label>
+          <input
+            matInput
+            [(ngModel)]="data.provizija"
+            name="provizija"
+            type="number"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>monetization_on</mat-icon>
+          <span matTextSuffix>%</span>
+        </mat-form-field>
+
+        <mat-form-field
+          class="full-width clickable-field"
+          appearance="outline"
+          (click)="openFilijalaPicker()"
+          (keydown)="$event.key === 'Enter' && openFilijalaPicker()"
+          [class.disabled]="flag == 3"
+        >
+          <mat-label>Branch</mat-label>
+          <input
+            matInput
+            [value]="selectedFilijalaLabel"
+            readonly
+            required
+            [disabled]="flag == 3"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="openFilijalaPicker(); $event.stopPropagation()"
+            [disabled]="flag == 3"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+          <mat-icon matPrefix>account_balance</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field
+          class="full-width clickable-field"
+          appearance="outline"
+          (click)="openKorisnikPicker()"
+          (keydown)="$event.key === 'Enter' && openKorisnikPicker()"
+          [class.disabled]="flag == 3"
+        >
+          <mat-label>User</mat-label>
+          <input
+            matInput
+            [value]="selectedKorisnikLabel"
+            readonly
+            required
+            [disabled]="flag == 3"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="openKorisnikPicker(); $event.stopPropagation()"
+            [disabled]="flag == 3"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="warning-section" *ngIf="flag == 3">
+        <mat-icon>warning</mat-icon>
+        <p>
+          This action cannot be undone. The service will be permanently removed from the system.
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button class="cancel-btn" (click)="cancel()">
+      <mat-icon>close</mat-icon>
+      Cancel
+    </button>
+
+    <button
+      mat-raised-button
+      class="action-btn"
+      *ngIf="flag == 1"
+      [disabled]="!formControl.valid"
+      (click)="add()"
+      color="primary"
+    >
+      <mat-icon>add</mat-icon>
+      Create Service
+    </button>
+
+    <button
+      mat-raised-button
+      class="action-btn"
+      *ngIf="flag == 2"
+      [disabled]="!formControl.valid"
+      (click)="update()"
+      color="primary"
+    >
+      <mat-icon>update</mat-icon>
+      Update Service
+    </button>
+
+    <button mat-raised-button class="action-btn danger" *ngIf="flag == 3" (click)="delete()">
+      <mat-icon>delete</mat-icon>
+      Delete Service
+    </button>
+  </div>
+</div>

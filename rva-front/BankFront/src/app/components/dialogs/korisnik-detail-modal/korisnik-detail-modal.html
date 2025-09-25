@@ -1,0 +1,132 @@
+<div class="fullscreen-modal">
+  <div class="modal-header">
+    <div class="header-content">
+      <mat-icon class="header-icon">person</mat-icon>
+      <div class="header-text">
+        <h1>{{ selectedKorisnik ? 'User Details' : 'Select User' }}</h1>
+        <p>
+          {{
+            selectedKorisnik
+              ? selectedKorisnik.ime + ' ' + selectedKorisnik.prezime
+              : 'Choose a user for this service'
+          }}
+        </p>
+      </div>
+    </div>
+    <button mat-icon-button class="close-btn" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="modal-content">
+    <div class="search-section" *ngIf="!selectedKorisnik">
+      <mat-form-field class="search-field" appearance="outline">
+        <mat-label>Search Users</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          (input)="applyFilter()"
+          placeholder="Search by name or ID"
+        />
+        <mat-icon matPrefix>search</mat-icon>
+        <button matSuffix mat-icon-button *ngIf="searchTerm" (click)="clearSearch()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="users-grid" *ngIf="!selectedKorisnik">
+      <div
+        class="user-card"
+        *ngFor="let user of filteredUsers"
+        (click)="selectUser(user)"
+        [class.selected]="user.id === preselectedId"
+      >
+        <div class="card-header">
+          <div class="user-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ user.ime }} {{ user.prezime }}</div>
+            <div class="user-id">ID: {{ user.maticniBroj }}</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button mat-button color="primary">
+            <mat-icon>check_circle</mat-icon>
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-details" *ngIf="selectedKorisnik">
+      <mat-card class="detail-card">
+        <mat-card-header>
+          <div mat-card-avatar class="user-avatar large-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+          <mat-card-title>{{ selectedKorisnik.ime }} {{ selectedKorisnik.prezime }}</mat-card-title>
+          <mat-card-subtitle>Banking Service User</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="details-grid">
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>person</mat-icon>
+                First Name
+              </div>
+              <div class="detail-value">{{ selectedKorisnik.ime }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>person_outline</mat-icon>
+                Last Name
+              </div>
+              <div class="detail-value">{{ selectedKorisnik.prezime }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>badge</mat-icon>
+                Personal ID
+              </div>
+              <div class="detail-value">{{ selectedKorisnik.maticniBroj }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">
+                <mat-icon>tag</mat-icon>
+                User ID
+              </div>
+              <div class="detail-value">#{{ selectedKorisnik.id }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="confirm()">
+            <mat-icon>check</mat-icon>
+            Confirm Selection
+          </button>
+          <button mat-button (click)="backToList()">
+            <mat-icon>arrow_back</mat-icon>
+            Back to List
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div
+      class="empty-state"
+      *ngIf="!selectedKorisnik && filteredUsers.length === 0 && users.length > 0"
+    >
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <h3>No users found</h3>
+      <p>Try adjusting your search criteria</p>
+      <button mat-button (click)="clearSearch()">Clear Search</button>
+    </div>
+
+    <div class="loading-state" *ngIf="users.length === 0">
+      <mat-spinner></mat-spinner>
+      <p>Loading users...</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="modern-dialog">
+  <div class="dialog-header">
+    <div class="header-content">
+      <mat-icon class="header-icon">person</mat-icon>
+      <div class="header-text">
+        <h2 class="dialog-title" *ngIf="flag == 1">Add New User</h2>
+        <h2 class="dialog-title" *ngIf="flag == 2">Update User</h2>
+        <h2 class="dialog-title" *ngIf="flag == 3">Delete User</h2>
+        <p class="dialog-subtitle" *ngIf="flag == 1">Create a new user account</p>
+        <p class="dialog-subtitle" *ngIf="flag == 2">
+          Modify {{ data.ime || 'user' }} {{ data.prezime || '' }} details
+        </p>
+        <p class="dialog-subtitle" *ngIf="flag == 3">
+          Remove {{ data.ime || 'user' }} {{ data.prezime || '' }} permanently
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-content">
+    <form #formControl="ngForm" class="dialog-form">
+      <div class="form-section">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput [(ngModel)]="data.ime" name="ime" [disabled]="flag == 3" required />
+          <mat-icon matPrefix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input
+            matInput
+            [(ngModel)]="data.prezime"
+            name="prezime"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>person_outline</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Personal ID Number</mat-label>
+          <input
+            matInput
+            [(ngModel)]="data.maticniBroj"
+            name="maticniBroj"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>badge</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="warning-section" *ngIf="flag == 3">
+        <mat-icon>warning</mat-icon>
+        <p>
+          This action cannot be undone. The user and all associated data will be permanently
+          removed.
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button class="cancel-btn" (click)="cancel()">
+      <mat-icon>close</mat-icon>
+      Cancel
+    </button>
+
+    <button
+      mat-raised-button
+      class="action-btn"
+      *ngIf="flag == 1"
+      [disabled]="!formControl.valid"
+      (click)="add()"
+      color="primary"
+    >
+      <mat-icon>person_add</mat-icon>
+      Create User
+    </button>
+
+    <button
+      mat-raised-button
+      class="action-btn"
+      *ngIf="flag == 2"
+      [disabled]="!formControl.valid"
+      (click)="update()"
+      color="primary"
+    >
+      <mat-icon>update</mat-icon>
+      Update User
+    </button>
+
+    <button mat-raised-button class="action-btn danger" *ngIf="flag == 3" (click)="delete()">
+      <mat-icon>person_remove</mat-icon>
+      Delete User
+    </button>
+  </div>
+</div>

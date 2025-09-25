@@ -1,0 +1,133 @@
+<div class="modern-dialog">
+  <div class="dialog-header">
+    <div class="header-content">
+      <mat-icon class="header-icon" [color]="flag === 3 ? 'warn' : 'primary'">
+        {{ flag === 1 ? 'add_location' : flag === 2 ? 'edit_location' : 'delete_forever' }}
+      </mat-icon>
+      <div class="header-text">
+        <h2 class="dialog-title">
+          <span *ngIf="flag == 1">Add New Branch</span>
+          <span *ngIf="flag == 2">Update Branch</span>
+          <span *ngIf="flag == 3">Delete Branch</span>
+        </h2>
+        <p class="dialog-subtitle" *ngIf="flag !== 1">{{ data.adresa }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-content">
+    <form #formControl="ngForm" class="dialog-form">
+      <div class="form-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
+          <input
+            matInput
+            placeholder="Enter branch address"
+            [(ngModel)]="data.adresa"
+            name="adresa"
+            [disabled]="flag == 3"
+            required
+          />
+          <mat-icon matPrefix>location_on</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Number of Counters</mat-label>
+          <input
+            matInput
+            placeholder="Enter number of counters"
+            type="number"
+            [(ngModel)]="data.brojPultova"
+            name="brojPultova"
+            [disabled]="flag == 3"
+            required
+            min="1"
+          />
+          <mat-icon matPrefix>countertops</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Has Safe</mat-label>
+          <mat-select
+            [(ngModel)]="data.posedujeSef"
+            name="posedujeSef"
+            [disabled]="flag == 3"
+            required
+          >
+            <mat-option [value]="true">Yes</mat-option>
+            <mat-option [value]="false">No</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>security</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="full-width clickable-field"
+          (click)="openBankaPicker()"
+          (keydown)="$event.key === 'Enter' && openBankaPicker()"
+          [class.disabled]="flag == 3"
+        >
+          <mat-label>Bank</mat-label>
+          <input matInput [value]="selectedBankaLabel" readonly required [disabled]="flag == 3" />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="openBankaPicker(); $event.stopPropagation()"
+            [disabled]="flag == 3"
+          >
+            <mat-icon>search</mat-icon>
+          </button>
+          <mat-icon matPrefix>business</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="warning-section" *ngIf="flag == 3">
+        <mat-icon color="warn">warning</mat-icon>
+        <p>This action cannot be undone. Are you sure you want to delete this branch?</p>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button class="cancel-btn" (click)="cancel()">
+      <mat-icon>close</mat-icon>
+      <span>Cancel</span>
+    </button>
+
+    <button
+      mat-raised-button
+      *ngIf="flag == 1"
+      color="primary"
+      class="action-btn"
+      [disabled]="!formControl.valid"
+      (click)="add()"
+    >
+      <mat-icon>save</mat-icon>
+      <span>Create Branch</span>
+    </button>
+
+    <button
+      mat-raised-button
+      *ngIf="flag == 2"
+      color="primary"
+      class="action-btn"
+      [disabled]="!formControl.valid"
+      (click)="update()"
+    >
+      <mat-icon>update</mat-icon>
+      <span>Update Branch</span>
+    </button>
+
+    <button
+      mat-raised-button
+      *ngIf="flag == 3"
+      color="warn"
+      class="action-btn danger"
+      (click)="delete()"
+    >
+      <mat-icon>delete_forever</mat-icon>
+      <span>Delete Branch</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+mat-toolbar {
+  justify-content: center;
+  background-color: #1976d2;
+}
+table {
+  width: 100%;
+}
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
